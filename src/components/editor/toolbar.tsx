@@ -103,25 +103,29 @@ export function EditorToolbar({ editor, onAiAssist, aiIsLoading, onClearContent 
 
       <Separator orientation="vertical" className="h-8" />
 
-      <div className="relative flex items-center">
-        <Palette className="w-4 h-4 absolute left-3 z-10" style={{ color: currentColor }} />
-        <input
-          type="color"
-          onInput={(event) => editor.chain().focus().setColor((event.target as HTMLInputElement).value).run()}
-          value={currentColor}
-          className="w-10 h-9 p-0 rounded-md bg-transparent border-none cursor-pointer [&::-webkit-color-swatch-wrapper]:p-0 [&::-webkit-color-swatch]:rounded-md [&::-webkit-color-swatch]:border-none"
-        />
-      </div>
-
-      <div className="relative flex items-center">
-        <Highlighter className="w-4 h-4 absolute left-3 z-10" style={{ color: currentHighlight === 'transparent' ? 'var(--foreground)' : currentHighlight }} />
-        <input
-          type="color"
-          onInput={(event) => editor.chain().focus().toggleHighlight({ color: (event.target as HTMLInputElement).value }).run()}
-          value={currentHighlight}
-          className="w-10 h-9 p-0 rounded-md bg-transparent border-none cursor-pointer [&::-webkit-color-swatch-wrapper]:p-0 [&::-webkit-color-swatch]:rounded-md [&::-webkit-color-swatch]:border-none"
-        />
-      </div>
+      <Toggle size="sm" asChild>
+        <label className="relative">
+          <Palette className="h-4 w-4" style={{ color: currentColor }}/>
+          <input
+            type="color"
+            className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
+            onInput={(event) => editor.chain().focus().setColor((event.target as HTMLInputElement).value).run()}
+            value={currentColor}
+          />
+        </label>
+      </Toggle>
+      
+      <Toggle size="sm" asChild>
+        <label className="relative">
+          <Highlighter className="h-4 w-4" style={{ color: currentHighlight === 'transparent' ? 'var(--foreground)' : currentHighlight }}/>
+          <input
+            type="color"
+            className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
+            onInput={(event) => editor.chain().focus().toggleHighlight({ color: (event.target as HTMLInputElement).value }).run()}
+            value={currentHighlight}
+          />
+        </label>
+      </Toggle>
       
       <Separator orientation="vertical" className="h-8" />
 
