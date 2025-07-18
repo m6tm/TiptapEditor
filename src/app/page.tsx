@@ -29,7 +29,7 @@ export default function Home() {
         <div className="bg-card p-4 sm:p-6 rounded-xl shadow-lg border">
           <h2 className="text-2xl font-semibold mb-4 font-headline">Live HTML Output</h2>
           <div className="bg-muted p-4 rounded-lg overflow-x-auto">
-            <pre className="text-sm whitespace-pre-wrap break-all">
+            <pre className="text-sm whitespace-pre-wrap break-words">
               <code>{content}</code>
             </pre>
           </div>
