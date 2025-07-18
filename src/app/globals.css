@@ -146,4 +146,8 @@ body {
   .ProseMirror hr {
     @apply border-t border-muted my-4;
   }
+
+  .ProseMirror mark {
+    @apply px-1 py-0.5 rounded-sm;
+  }
 }
