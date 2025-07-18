@@ -17,7 +17,10 @@ import {
   Heading2,
   Heading3,
   LoaderCircle,
-  Pilcrow
+  Pilcrow,
+  Undo,
+  Redo,
+  Eraser
 } from 'lucide-react';
 import { Toggle } from '@/components/ui/toggle';
 import { Separator } from '@/components/ui/separator';
@@ -33,9 +36,10 @@ interface EditorToolbarProps {
   editor: Editor | null;
   onAiAssist: () => void;
   aiIsLoading: boolean;
+  onClearContent: () => void;
 }
 
-export function EditorToolbar({ editor, onAiAssist, aiIsLoading }: EditorToolbarProps) {
+export function EditorToolbar({ editor, onAiAssist, aiIsLoading, onClearContent }: EditorToolbarProps) {
   const setLink = useCallback(() => {
     if (!editor) return;
     const previousUrl = editor.getAttributes('link').href;
@@ -114,6 +118,18 @@ export function EditorToolbar({ editor, onAiAssist, aiIsLoading }: EditorToolbar
       </Button>
       <Button variant="ghost" size="icon" onClick={() => editor.chain().focus().setHorizontalRule().run()}>
         <Minus className="h-4 w-4" />
+      </Button>
+
+      <Separator orientation="vertical" className="h-8" />
+      
+      <Button variant="ghost" size="icon" onClick={() => editor.chain().focus().undo().run()} disabled={!editor.can().undo()}>
+        <Undo className="h-4 w-4" />
+      </Button>
+      <Button variant="ghost" size="icon" onClick={() => editor.chain().focus().redo().run()} disabled={!editor.can().redo()}>
+        <Redo className="h-4 w-4" />
+      </Button>
+      <Button variant="ghost" size="icon" onClick={onClearContent}>
+        <Eraser className="h-4 w-4" />
       </Button>
       
       <div className="flex-grow" />

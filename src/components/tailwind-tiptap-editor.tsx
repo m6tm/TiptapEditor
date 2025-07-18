@@ -103,9 +103,20 @@ export function TailwindTiptapEditor({
     }
   };
 
+  const handleClearContent = () => {
+    if (editor) {
+      editor.chain().focus().clearContent().run();
+    }
+  };
+
   return (
     <div className="flex flex-col gap-2">
-      <EditorToolbar editor={editor as Editor} onAiAssist={handleAiAssist} aiIsLoading={aiIsLoading} />
+      <EditorToolbar 
+        editor={editor as Editor} 
+        onAiAssist={handleAiAssist} 
+        aiIsLoading={aiIsLoading}
+        onClearContent={handleClearContent}
+      />
       <EditorContent editor={editor} />
 
       <Dialog open={isAiDialogOpen} onOpenChange={setIsAiDialogOpen}>
