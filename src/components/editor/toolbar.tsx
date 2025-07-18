@@ -103,8 +103,8 @@ export function EditorToolbar({ editor, onAiAssist, aiIsLoading, onClearContent 
 
       <Separator orientation="vertical" className="h-8" />
 
-      <Toggle size="sm" asChild>
-        <label className="relative">
+      <Button variant="ghost" size="icon" asChild className="relative h-9 w-9">
+        <label>
           <Palette className="h-4 w-4" style={{ color: currentColor }}/>
           <input
             type="color"
@@ -113,10 +113,10 @@ export function EditorToolbar({ editor, onAiAssist, aiIsLoading, onClearContent 
             value={currentColor}
           />
         </label>
-      </Toggle>
+      </Button>
       
-      <Toggle size="sm" asChild>
-        <label className="relative">
+      <Button variant="ghost" size="icon" asChild className="relative h-9 w-9">
+        <label>
           <Highlighter className="h-4 w-4" style={{ color: currentHighlight === 'transparent' ? 'var(--foreground)' : currentHighlight }}/>
           <input
             type="color"
@@ -125,7 +125,7 @@ export function EditorToolbar({ editor, onAiAssist, aiIsLoading, onClearContent 
             value={currentHighlight}
           />
         </label>
-      </Toggle>
+      </Button>
       
       <Separator orientation="vertical" className="h-8" />
 
