@@ -20,7 +20,9 @@ import {
   Pilcrow,
   Undo,
   Redo,
-  Eraser
+  Eraser,
+  Palette,
+  Highlighter
 } from 'lucide-react';
 import { Toggle } from '@/components/ui/toggle';
 import { Separator } from '@/components/ui/separator';
@@ -59,6 +61,9 @@ export function EditorToolbar({ editor, onAiAssist, aiIsLoading, onClearContent 
     return null;
   }
 
+  const currentColor = editor.getAttributes('textStyle').color || 'var(--foreground)';
+  const currentHighlight = editor.getAttributes('highlight').color || 'transparent';
+
   return (
     <div className="flex flex-wrap items-center gap-1 rounded-md border border-input bg-transparent p-1">
       <DropdownMenu>
@@ -95,6 +100,28 @@ export function EditorToolbar({ editor, onAiAssist, aiIsLoading, onClearContent 
       <Toggle size="sm" pressed={editor.isActive('strike')} onPressedChange={() => editor.chain().focus().toggleStrike().run()}>
         <Strikethrough className="h-4 w-4" />
       </Toggle>
+
+      <Separator orientation="vertical" className="h-8" />
+
+      <div className="relative flex items-center">
+        <Palette className="w-4 h-4 absolute left-3 z-10" style={{ color: currentColor }} />
+        <input
+          type="color"
+          onInput={(event) => editor.chain().focus().setColor((event.target as HTMLInputElement).value).run()}
+          value={currentColor}
+          className="w-10 h-9 p-0 rounded-md bg-transparent border-none cursor-pointer [&::-webkit-color-swatch-wrapper]:p-0 [&::-webkit-color-swatch]:rounded-md [&::-webkit-color-swatch]:border-none"
+        />
+      </div>
+
+      <div className="relative flex items-center">
+        <Highlighter className="w-4 h-4 absolute left-3 z-10" style={{ color: currentHighlight === 'transparent' ? 'var(--foreground)' : currentHighlight }} />
+        <input
+          type="color"
+          onInput={(event) => editor.chain().focus().toggleHighlight({ color: (event.target as HTMLInputElement).value }).run()}
+          value={currentHighlight}
+          className="w-10 h-9 p-0 rounded-md bg-transparent border-none cursor-pointer [&::-webkit-color-swatch-wrapper]:p-0 [&::-webkit-color-swatch]:rounded-md [&::-webkit-color-swatch]:border-none"
+        />
+      </div>
       
       <Separator orientation="vertical" className="h-8" />
 

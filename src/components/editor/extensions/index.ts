@@ -17,6 +17,10 @@ import Strike from './strike';
 import Text from './text';
 import CustomLink from './link';
 import CustomPlaceholder from './placeholder';
+import TextStyle from './text-style';
+import Color from './color';
+import Highlight from './highlight';
+
 
 export const extensions = [
   Blockquote,
@@ -38,4 +42,7 @@ export const extensions = [
   Text,
   CustomLink,
   CustomPlaceholder,
+  TextStyle,
+  Color,
+  Highlight.configure({ multicolor: true }),
 ];
