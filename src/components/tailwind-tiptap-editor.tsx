@@ -2,14 +2,12 @@
 
 import type { Editor } from '@tiptap/react';
 import { useEditor, EditorContent } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
-import Placeholder from '@tiptap/extension-placeholder';
-import Link from '@tiptap/extension-link';
 
 import React, { useState, useEffect } from 'react';
 import { EditorToolbar } from './editor/toolbar';
 import { getAiAssistance } from '@/app/actions';
 import type { AIContentAssistanceOutput } from '@/ai/flows/ai-content-assistance';
+import { extensions } from './editor/extensions';
 
 import {
   Dialog,
@@ -41,21 +39,7 @@ export function TailwindTiptapEditor({
   const [isAiDialogOpen, setIsAiDialogOpen] = useState(false);
 
   const editor = useEditor({
-    extensions: [
-      StarterKit.configure({
-        heading: {
-          levels: [1, 2, 3],
-        },
-      }),
-      Placeholder.configure({
-        placeholder: 'Start writing your amazing content...',
-      }),
-      Link.configure({
-        openOnClick: false,
-        autolink: true,
-        linkOnPaste: true,
-      }),
-    ],
+    extensions,
     content: content,
     editorProps: {
       attributes: {
