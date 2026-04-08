@@ -23,6 +23,7 @@ export function TailwindTiptapEditor({
   const editor = useEditor({
     extensions,
     content: content,
+    immediatelyRender: false,
     editorProps: {
       attributes: {
         class: 'ProseMirror',
