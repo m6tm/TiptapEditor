@@ -2,10 +2,16 @@
 
 import type { Editor } from '@tiptap/react';
 import { useEditor, EditorContent } from '@tiptap/react';
+import { Markdown } from 'tiptap-markdown';
+import { StarterKit } from '@tiptap/starter-kit';
+import CustomLink from './editor/extensions/link';
+import CustomPlaceholder from './editor/extensions/placeholder';
+import TextStyle from './editor/extensions/text-style';
+import Color from './editor/extensions/color';
+import Highlight from './editor/extensions/highlight';
 
 import React, { useEffect } from 'react';
 import { EditorToolbar } from './editor/toolbar';
-import { extensions } from './editor/extensions';
 
 interface TailwindTiptapEditorProps {
   content: string;
@@ -21,7 +27,19 @@ export function TailwindTiptapEditor({
   debounceDuration = 300,
 }: TailwindTiptapEditorProps) {
   const editor = useEditor({
-    extensions,
+    extensions: [
+      StarterKit,
+      Markdown.configure({
+        linkify: true,
+        transformPastedText: true,
+        transformCopiedText: true,
+      }),
+      CustomLink,
+      CustomPlaceholder,
+      TextStyle,
+      Color,
+      Highlight.configure({ multicolor: true }),
+    ],
     content: content,
     immediatelyRender: false,
     editorProps: {
@@ -30,7 +48,9 @@ export function TailwindTiptapEditor({
       },
     },
     onUpdate({ editor }) {
-      onChange(editor.getHTML());
+      // @ts-ignore - markdown property is added by the extension
+      const markdown = editor.storage.markdown.getMarkdown();
+      onChange(markdown);
     },
   });
 
@@ -38,14 +58,15 @@ export function TailwindTiptapEditor({
     if (!editor || !onDebouncedUpdate) return;
 
     const timeout = setTimeout(() => {
-      onDebouncedUpdate(editor.getHTML());
+      // @ts-ignore
+      onDebouncedUpdate(editor.storage.markdown.getMarkdown());
     }, debounceDuration);
 
     return () => clearTimeout(timeout);
   }, [content, onDebouncedUpdate, debounceDuration, editor]);
 
   useEffect(() => {
-    if (editor && content !== editor.getHTML()) {
+    if (editor && content !== (editor as any).storage.markdown.getMarkdown()) {
       editor.commands.setContent(content, { emitUpdate: false });
     }
   }, [content, editor]);

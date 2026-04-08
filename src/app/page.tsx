@@ -4,7 +4,23 @@ import { TailwindTiptapEditor } from '@/components/tailwind-tiptap-editor';
 
 export default function Home() {
   const [content, setContent] = useState<string>(
-    `<h1>Welcome to Tiptap Pro Editor!</h1><p>This is a modern, reusable, and customizable rich text editor built with <a href="https://tiptap.dev">TipTap</a> and styled with <a href="https://tailwindcss.com">Tailwind CSS</a>.</p><p>Feel free to edit this content. Use the toolbar above to format your text. You can make text <strong>bold</strong>, <em>italic</em>, or <del>strikethrough</del>.</p><h3>Key Features:</h3><ul><li>Modern UI/UX with a clean, intuitive interface.</li><li>Easily customizable plugin architecture.</li><li>Open-source and highly flexible.</li></ul><blockquote>Give it a try and see how easy it is to create beautiful content.</blockquote><pre><code>console.log("Hello, World!");</code></pre>`
+`# Welcome to Tiptap Pro Editor!
+
+This is a modern, reusable, and customizable rich text editor built with [TipTap](https://tiptap.dev) and styled with [Tailwind CSS](https://tailwindcss.com).
+
+Feel free to edit this content. Use the toolbar above to format your text. You can make text **bold**, *italic*, or ~~strikethrough~~.
+
+### Key Features:
+
+- Modern UI/UX with a clean, intuitive interface.
+- Easily customizable plugin architecture.
+- Open-source and highly flexible.
+
+> Give it a try and see how easy it is to create beautiful content.
+
+\`\`\`javascript
+console.log("Hello, World!");
+\`\`\``
   );
 
   return (

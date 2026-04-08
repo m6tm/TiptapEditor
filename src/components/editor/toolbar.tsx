@@ -1,7 +1,7 @@
 'use client';
 
 import type { Editor } from '@tiptap/react';
-import { useCallback } from 'react';
+import { useCallback, useRef } from 'react';
 import {
   Bold,
   Italic,
@@ -20,7 +20,8 @@ import {
   Redo,
   Eraser,
   Palette,
-  Highlighter
+  Highlighter,
+  FileUp
 } from 'lucide-react';
 import { Toggle } from '@/components/ui/toggle';
 import { Separator } from '@/components/ui/separator';
@@ -31,6 +32,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { useToast } from '@/hooks/use-toast';
 
 interface EditorToolbarProps {
   editor: Editor | null;
@@ -38,6 +40,9 @@ interface EditorToolbarProps {
 }
 
 export function EditorToolbar({ editor, onClearContent }: EditorToolbarProps) {
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const { toast } = useToast();
+
   const setLink = useCallback(() => {
     if (!editor) return;
     const previousUrl = editor.getAttributes('link').href;
@@ -52,6 +57,37 @@ export function EditorToolbar({ editor, onClearContent }: EditorToolbarProps) {
     }
     editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
   }, [editor]);
+
+  const handleImportMarkdown = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file || !editor) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const content = e.target?.result;
+      if (typeof content === 'string') {
+        // En Tiptap avec l'extension Markdown, on peut utiliser setContent avec du markdown
+        editor.commands.setContent(content, { emitUpdate: true });
+        toast({
+          title: "Import réussi",
+          description: "Le fichier Markdown a été importé avec succès.",
+        });
+      }
+    };
+    reader.onerror = () => {
+      toast({
+        title: "Erreur d'import",
+        description: "Impossible de lire le fichier.",
+        variant: "destructive",
+      });
+    };
+    reader.readAsText(file);
+    
+    // Reset input value so same file can be imported again
+    if (fileInputRef.current) {
+      fileInputRef.current.value = '';
+    }
+  };
 
   if (!editor) {
     return null;
@@ -158,6 +194,19 @@ export function EditorToolbar({ editor, onClearContent }: EditorToolbarProps) {
       <Button variant="ghost" size="icon" onClick={onClearContent}>
         <Eraser className="h-4 w-4" />
       </Button>
+
+      <Separator orientation="vertical" className="h-8" />
+
+      <Button variant="ghost" size="icon" onClick={() => fileInputRef.current?.click()} title="Importer Markdown">
+        <FileUp className="h-4 w-4" />
+      </Button>
+      <input
+        type="file"
+        accept=".md,.markdown"
+        ref={fileInputRef}
+        onChange={handleImportMarkdown}
+        className="hidden"
+      />
     </div>
   );
 }

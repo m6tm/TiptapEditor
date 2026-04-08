@@ -1,20 +1,5 @@
-import Blockquote from './blockquote';
-import Bold from './bold';
-import BulletList from './bullet-list';
-import CodeBlock from './code-block';
-import Document from './document';
-import Dropcursor from './dropcursor';
-import Gapcursor from './gapcursor';
-import HardBreak from './hard-break';
-import Heading from './heading';
-import History from './history';
-import HorizontalRule from './horizontal-rule';
-import Italic from './italic';
-import ListItem from './list-item';
-import OrderedList from './ordered-list';
-import Paragraph from './paragraph';
-import Strike from './strike';
-import Text from './text';
+import { StarterKit } from '@tiptap/starter-kit';
+import { Markdown } from 'tiptap-markdown';
 import CustomLink from './link';
 import CustomPlaceholder from './placeholder';
 import TextStyle from './text-style';
@@ -23,23 +8,26 @@ import Highlight from './highlight';
 
 
 export const extensions = [
-  Blockquote,
-  Bold,
-  BulletList,
-  CodeBlock,
-  Document,
-  Dropcursor,
-  Gapcursor,
-  HardBreak,
-  Heading,
-  History,
-  HorizontalRule,
-  Italic,
-  ListItem,
-  OrderedList,
-  Paragraph,
-  Strike,
-  Text,
+  StarterKit.configure({
+    blockquote: true,
+    bold: true,
+    bulletList: true,
+    codeBlock: true,
+    document: true,
+    dropcursor: true,
+    gapcursor: true,
+    hardBreak: true,
+    heading: true,
+    history: true,
+    horizontalRule: true,
+    italic: true,
+    listItem: true,
+    orderedList: true,
+    paragraph: true,
+    strike: true,
+    text: true,
+  }),
+  Markdown,
   CustomLink,
   CustomPlaceholder,
   TextStyle,
