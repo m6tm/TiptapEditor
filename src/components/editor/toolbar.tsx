@@ -12,11 +12,9 @@ import {
   Quote,
   Minus,
   Link as LinkIcon,
-  Sparkles,
   Heading1,
   Heading2,
   Heading3,
-  LoaderCircle,
   Pilcrow,
   Undo,
   Redo,
@@ -36,12 +34,10 @@ import {
 
 interface EditorToolbarProps {
   editor: Editor | null;
-  onAiAssist: () => void;
-  aiIsLoading: boolean;
   onClearContent: () => void;
 }
 
-export function EditorToolbar({ editor, onAiAssist, aiIsLoading, onClearContent }: EditorToolbarProps) {
+export function EditorToolbar({ editor, onClearContent }: EditorToolbarProps) {
   const setLink = useCallback(() => {
     if (!editor) return;
     const previousUrl = editor.getAttributes('link').href;
@@ -161,17 +157,6 @@ export function EditorToolbar({ editor, onAiAssist, aiIsLoading, onClearContent 
       </Button>
       <Button variant="ghost" size="icon" onClick={onClearContent}>
         <Eraser className="h-4 w-4" />
-      </Button>
-      
-      <div className="flex-grow" />
-      
-      <Button variant="ghost" size="sm" onClick={onAiAssist} disabled={aiIsLoading}>
-        {aiIsLoading ? (
-          <LoaderCircle className="h-4 w-4 animate-spin mr-2" />
-        ) : (
-          <Sparkles className="h-4 w-4 text-accent-foreground mr-2" />
-        )}
-        AI Assist
       </Button>
     </div>
   );
