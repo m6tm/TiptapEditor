@@ -162,50 +162,55 @@
     @apply mt-4;
   }
 
+  /* Enrichissement des couleurs par défaut */
+  .ProseMirror strong, .ProseMirror b {
+    @apply font-bold text-accent;
+  }
+
   .ProseMirror h1,
   .ProseMirror h2,
   .ProseMirror h3,
   .ProseMirror h4,
   .ProseMirror h5,
   .ProseMirror h6 {
-    @apply font-headline;
+    @apply font-headline text-primary;
   }
 
-  .ProseMirror h1 { @apply text-4xl font-bold; }
-  .ProseMirror h2 { @apply text-3xl font-bold; }
-  .ProseMirror h3 { @apply text-2xl font-bold; }
-  .ProseMirror h4 { @apply text-xl font-bold; }
-  .ProseMirror h5 { @apply text-lg font-bold; }
-  .ProseMirror h6 { @apply text-base font-bold; }
+  .ProseMirror h1 { @apply text-4xl font-bold mb-6 mt-8; }
+  .ProseMirror h2 { @apply text-3xl font-bold mb-4 mt-6; }
+  .ProseMirror h3 { @apply text-2xl font-bold mb-3 mt-5; }
+  .ProseMirror h4 { @apply text-xl font-bold mb-2 mt-4; }
+  .ProseMirror h5 { @apply text-lg font-bold mb-2 mt-3; }
+  .ProseMirror h6 { @apply text-base font-bold mb-2 mt-3; }
   
-  .ProseMirror ul { @apply list-disc list-outside ml-6; }
-  .ProseMirror ol { @apply list-decimal list-outside ml-6; }
+  .ProseMirror ul { @apply list-disc list-outside ml-6 text-foreground; }
+  .ProseMirror ol { @apply list-decimal list-outside ml-6 text-foreground; }
 
   .ProseMirror blockquote {
-    @apply pl-4 border-l-2 border-muted-foreground/50 italic;
+    @apply pl-4 my-4 py-1 border-l-4 border-primary bg-primary/5 rounded-r-md italic text-foreground;
   }
 
   .ProseMirror code {
-    @apply bg-muted text-muted-foreground rounded-sm px-1 py-0.5 font-mono text-sm;
+    @apply bg-amber-500/10 text-amber-600 dark:bg-amber-500/20 dark:text-amber-400 rounded-md px-1.5 py-0.5 font-mono text-sm border border-amber-500/20;
   }
 
   .ProseMirror pre {
-    @apply bg-foreground text-background p-4 rounded-lg my-4 overflow-x-auto;
+    @apply bg-slate-900 text-slate-50 p-4 rounded-lg my-4 overflow-x-auto border border-border shadow-sm;
   }
 
   .ProseMirror pre code {
-    @apply bg-transparent text-inherit p-0;
+    @apply bg-transparent text-inherit p-0 border-none;
   }
 
   .ProseMirror a {
-    @apply text-primary underline decoration-primary decoration-2 underline-offset-2 cursor-pointer;
+    @apply text-blue-600 dark:text-blue-400 font-medium underline decoration-blue-600/30 dark:decoration-blue-400/30 decoration-2 underline-offset-4 hover:decoration-blue-600 dark:hover:decoration-blue-400 transition-colors cursor-pointer cursor-text;
   }
 
   .ProseMirror hr {
-    @apply border-t border-muted my-4;
+    @apply border-t-2 border-border my-6;
   }
 
   .ProseMirror mark {
-    @apply px-1 py-0.5 rounded-sm;
+    @apply px-1 py-0.5 rounded-sm bg-yellow-300/80 dark:bg-yellow-500/50 text-foreground;
   }
 }

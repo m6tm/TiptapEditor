@@ -2,16 +2,10 @@
 
 import type { Editor } from '@tiptap/react';
 import { useEditor, EditorContent } from '@tiptap/react';
-import { Markdown } from 'tiptap-markdown';
-import { StarterKit } from '@tiptap/starter-kit';
-import CustomLink from './editor/extensions/link';
-import CustomPlaceholder from './editor/extensions/placeholder';
-import TextStyle from './editor/extensions/text-style';
-import Color from './editor/extensions/color';
-import Highlight from './editor/extensions/highlight';
 
 import React, { useEffect } from 'react';
 import { EditorToolbar } from './editor/toolbar';
+import { extensions } from './editor/extensions';
 
 interface TailwindTiptapEditorProps {
   content: string;
@@ -27,19 +21,7 @@ export function TailwindTiptapEditor({
   debounceDuration = 300,
 }: TailwindTiptapEditorProps) {
   const editor = useEditor({
-    extensions: [
-      StarterKit,
-      Markdown.configure({
-        linkify: true,
-        transformPastedText: true,
-        transformCopiedText: true,
-      }),
-      CustomLink,
-      CustomPlaceholder,
-      TextStyle,
-      Color,
-      Highlight.configure({ multicolor: true }),
-    ],
+    extensions: extensions,
     content: content,
     immediatelyRender: false,
     editorProps: {
@@ -79,8 +61,8 @@ export function TailwindTiptapEditor({
 
   return (
     <div className="flex flex-col gap-2">
-      <EditorToolbar 
-        editor={editor as Editor} 
+      <EditorToolbar
+        editor={editor as Editor}
         onClearContent={handleClearContent}
       />
       <EditorContent editor={editor} />

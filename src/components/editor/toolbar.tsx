@@ -32,6 +32,19 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+
+const TEXT_COLORS = [
+  '#000000', '#434343', '#666666', '#999999', '#b7b7b7', '#cccccc', '#d9d9d9', '#efefef', '#f3f3f3', '#ffffff',
+  '#980000', '#ff0000', '#ff9900', '#ffff00', '#00ff00', '#00ffff', '#4a86e8', '#0000ff', '#9900ff', '#ff00ff',
+  '#e6b8af', '#f4cccc', '#fce5cd', '#fff2cc', '#d9ead3', '#d0e0e3', '#c9daf8', '#cfe2f3', '#d9d2e9', '#ead1dc',
+];
+
+const HIGHLIGHT_COLORS = [
+  'transparent',
+  '#f87171', '#fb923c', '#fbbf24', '#a3e635', '#4ade80', '#34d399', '#2dd4bf', '#38bdf8', '#60a5fa', 
+  '#818cf8', '#a78bfa', '#c084fc', '#e879f9', '#f472b6'
+];
 import { useToast } from '@/hooks/use-toast';
 
 interface EditorToolbarProps {
@@ -135,29 +148,85 @@ export function EditorToolbar({ editor, onClearContent }: EditorToolbarProps) {
 
       <Separator orientation="vertical" className="h-8" />
 
-      <Button variant="ghost" size="icon" asChild className="relative h-9 w-9">
-        <label>
-          <Palette className="h-4 w-4" style={{ color: currentColor }}/>
-          <input
-            type="color"
-            className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
-            onInput={(event) => editor.chain().focus().setColor((event.target as HTMLInputElement).value).run()}
-            value={currentColor}
-          />
-        </label>
-      </Button>
-      
-      <Button variant="ghost" size="icon" asChild className="relative h-9 w-9">
-        <label>
-          <Highlighter className="h-4 w-4" style={{ color: currentHighlight === 'transparent' ? 'var(--foreground)' : currentHighlight }}/>
-          <input
-            type="color"
-            className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
-            onInput={(event) => editor.chain().focus().toggleHighlight({ color: (event.target as HTMLInputElement).value }).run()}
-            value={currentHighlight}
-          />
-        </label>
-      </Button>
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button variant="ghost" size="icon" className="h-9 w-9">
+            <Palette className="h-4 w-4" style={{ color: currentColor !== 'var(--foreground)' ? currentColor : 'inherit' }} />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-64 p-2 bg-popover rounded-md shadow-md border border-border">
+          <div className="mb-2 text-xs font-semibold text-muted-foreground px-1">Style de texte</div>
+          <div className="flex flex-wrap gap-1">
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-6 w-6 rounded-sm bg-transparent"
+              onClick={() => editor.chain().focus().unsetColor().run()}
+              title="Défaut"
+            >
+              <Eraser className="h-3 w-3" />
+            </Button>
+            {TEXT_COLORS.map((color) => (
+              <button
+                key={color}
+                className="h-6 w-6 rounded-sm border border-border"
+                style={{ backgroundColor: color }}
+                onClick={() => editor.chain().focus().setColor(color).run()}
+                title={color}
+              />
+            ))}
+          </div>
+          <div className="mt-2 flex items-center gap-2 px-1">
+             <input
+              type="color"
+              className="h-6 w-6 cursor-pointer rounded-sm border border-border p-0"
+              onInput={(event) => editor.chain().focus().setColor((event.target as HTMLInputElement).value).run()}
+              value={currentColor !== 'var(--foreground)' ? currentColor : '#000000'}
+             />
+             <span className="text-xs text-muted-foreground">Couleur personnalisée</span>
+          </div>
+        </PopoverContent>
+      </Popover>
+
+      <Popover>
+        <PopoverTrigger asChild>
+          <Button variant="ghost" size="icon" className="h-9 w-9">
+            <Highlighter className="h-4 w-4" style={{ color: currentHighlight !== 'transparent' ? currentHighlight : 'inherit' }} />
+          </Button>
+        </PopoverTrigger>
+        <PopoverContent className="w-64 p-2 bg-popover rounded-md shadow-md border border-border">
+          <div className="mb-2 text-xs font-semibold text-muted-foreground px-1">Surlignage</div>
+          <div className="flex flex-wrap gap-1">
+            <Button
+              variant="outline"
+              size="icon"
+              className="h-6 w-6 rounded-sm bg-transparent"
+              onClick={() => editor.chain().focus().unsetHighlight().run()}
+              title="Défaut"
+            >
+              <Eraser className="h-3 w-3" />
+            </Button>
+            {HIGHLIGHT_COLORS.filter(color => color !== 'transparent').map((color) => (
+              <button
+                key={color}
+                className="h-6 w-6 rounded-sm border border-border"
+                style={{ backgroundColor: color }}
+                onClick={() => editor.chain().focus().setHighlight({ color }).run()}
+                title={color}
+              />
+            ))}
+          </div>
+           <div className="mt-2 flex items-center gap-2 px-1">
+             <input
+              type="color"
+              className="h-6 w-6 cursor-pointer rounded-sm border border-border p-0"
+              onInput={(event) => editor.chain().focus().setHighlight({ color: (event.target as HTMLInputElement).value }).run()}
+              value={currentHighlight !== 'transparent' ? currentHighlight : '#ffff00'}
+             />
+             <span className="text-xs text-muted-foreground">Couleur personnalisée</span>
+          </div>
+        </PopoverContent>
+      </Popover>
       
       <Separator orientation="vertical" className="h-8" />
 

@@ -8,8 +8,14 @@ import Highlight from './highlight';
 
 
 export const extensions = [
-  StarterKit,
-  Markdown,
+  StarterKit.configure({
+    link: false,
+  }),
+  Markdown.configure({
+    linkify: true,
+    transformPastedText: true,
+    transformCopiedText: true,
+  }),
   CustomLink,
   CustomPlaceholder,
   TextStyle,
