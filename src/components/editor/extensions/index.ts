@@ -8,25 +8,7 @@ import Highlight from './highlight';
 
 
 export const extensions = [
-  StarterKit.configure({
-    blockquote: {},
-    bold: {},
-    bulletList: {},
-    codeBlock: {},
-    document: {},
-    dropcursor: {},
-    gapcursor: {},
-    hardBreak: {},
-    heading: {},
-    history: {},
-    horizontalRule: {},
-    italic: {},
-    listItem: {},
-    orderedList: {},
-    paragraph: {},
-    strike: {},
-    text: {},
-  }),
+  StarterKit,
   Markdown,
   CustomLink,
   CustomPlaceholder,
